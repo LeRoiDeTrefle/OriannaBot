@@ -2,6 +2,12 @@ import asyncio
 import discord
 from discord.ext import commands
 
+def strfromplaylist(playlist):
+    string = 'voici la liste des morçeaux dans la playlist:\n'
+    for i in range(len(playlist)):
+        string = string+str(i+1)+' - '+str(playlist[i]+'\n')
+    return string
+
 class VoiceEntry:
     def __init__(self, message, player):
         self.requester = message.author
@@ -20,6 +26,7 @@ class VoiceState:
         self.current = None
         self.voice = None
         self.bot = bot
+        self.listMusic = list()
         self.play_next_song = asyncio.Event()
         self.songs = asyncio.Queue()
         self.skip_votes = set() # a set of user_ids that voted
@@ -42,6 +49,7 @@ class VoiceState:
             self.player.stop()
 
     def toggle_next(self):
+        self.listMusic.pop(0)
         self.bot.loop.call_soon_threadsafe(self.play_next_song.set)
 
     async def audio_player_task(self):
@@ -57,6 +65,7 @@ class Music:
 
     Works in multiple servers at once.
     """
+			
     def __init__(self, bot):
         self.bot = bot
         self.voice_states = {}
@@ -112,6 +121,25 @@ class Music:
         return True
 
     @commands.command(pass_context=True, no_pm=True)
+    async def CurrentPlaylist(self, ctx):
+        """Plays a song.
+
+        If there is a song currently in the queue, then it is
+        queued until the next song is done playing.
+
+        This command automatically searches as well from YouTube.
+        The list of supported sites can be found here:
+        https://rg3.github.io/youtube-dl/supportedsites.html
+        """
+        state = self.get_voice_state(ctx.message.server)
+        opts = {
+            'default_search': 'auto',
+            'quiet': True,
+        }
+        playlist = strfromplaylist(state.listMusic)
+        await self.bot.say(playlist)
+        
+    @commands.command(pass_context=True, no_pm=True)
     async def play(self, ctx, *, song : str):
         """Plays a song.
 
@@ -127,7 +155,8 @@ class Music:
             'default_search': 'auto',
             'quiet': True,
         }
-
+        Musiques = state.songs.get()
+        print(Musiques)		
         if state.voice is None:
             success = await ctx.invoke(self.summon)
             if not success:
@@ -138,8 +167,46 @@ class Music:
         except Exception as e:
             fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
             await self.bot.send_message(ctx.message.channel, fmt.format(type(e).__name__, e))
+
         else:
-            player.volume = 0.6
+            player.volume = 0.05
+            entry = VoiceEntry(ctx.message, player)
+            await self.bot.say('Enqueued ' + str(entry))
+            state.listMusic.append(str(entry))
+            playlist = strfromplaylist(state.listMusic)
+            await self.bot.say(playlist)
+            await state.songs.put(entry)
+
+    @commands.command(pass_context=True, no_pm=True)
+    async def RoomAmbiance(self, ctx, *, song : str):
+        """Plays a song.
+
+        If there is a song currently in the queue, then it is
+        queued until the next song is done playing.
+
+        This command automatically searches as well from YouTube.
+        The list of supported sites can be found here:
+        https://rg3.github.io/youtube-dl/supportedsites.html
+        """
+        state = self.get_voice_state(ctx.message.server)
+        opts = {
+            'default_search': 'auto',
+            'quiet': True,
+        }
+				
+        if state.voice is None:
+            success = await ctx.invoke(self.summon)
+            if not success:
+                return
+
+        try:
+            player = await state.voice.create_ytdl_player(song, ytdl_options=opts, after=state.toggle_next)
+        except Exception as e:
+            fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
+            await self.bot.send_message(ctx.message.channel, fmt.format(type(e).__name__, e))
+
+        else:
+            player.volume = 0.05
             entry = VoiceEntry(ctx.message, player)
             await self.bot.say('Enqueued ' + str(entry))
             await state.songs.put(entry)
