@@ -20,7 +20,6 @@ un serveur discord, il est proposé sous licence GPU
 ## Requirements
 
 - Python 3.5+
-- `discord.py` library
 - `aiohttp` library
 - `websockets` library
 - `youtube_dl` library
