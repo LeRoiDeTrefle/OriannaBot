@@ -19,9 +19,11 @@ un serveur discord, il est proposé sous licence GPU
   
 ## Requirements
 
-- Python 3.4.2+
+- Python 3.5+
+- `discord.py` library
 - `aiohttp` library
 - `websockets` library
+- `youtube_dl` library
 - `PyNaCl` library (optional, for voice only)
     - On Linux systems this requires the `libffi` library. You can install in
       debian based systems by doing `sudo apt-get install libffi-dev`.
