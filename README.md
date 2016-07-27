@@ -3,7 +3,7 @@
 Orianna Bot est un bot devloppé par LeRoiDeTrefle et al. dans le but d'animer et de proposer des commandes pour
 un serveur discord, il est proposé sous licence GPU
 
- This program is free software: you can redistribute it and/or modify
+    This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -28,4 +28,4 @@ un serveur discord, il est proposé sous licence GPU
     - On Linux systems this requires the `libffi` library. You can install in
       debian based systems by doing `sudo apt-get install libffi-dev`.
 
-Usually `pip` will handle these for you.
+En installant python v3.5 vous aurez acces à 'pip' ce dernier permet très facilement d'installer tout les différents modules nécéssaires pour faire tourner ce bot
