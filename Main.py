@@ -6,6 +6,7 @@ import sys
 import getopt
 import numpy as np
 from MusicFct import *
+from AdminFct import *
 from JdR import *
 from discord.ext import commands
 
@@ -17,6 +18,7 @@ else:
     bot = commands.Bot(command_prefix=commands.when_mentioned_or('$'), description='Je suis le bot du serveur discord French Baguette, voici les commandes que vous pouvez utiliser sur moi: ')
 bot.add_cog(Music(bot))
 bot.add_cog(JDR(bot))
+bot.add_cog(Admin(bot))
 
 @bot.event
 async def on_ready():
