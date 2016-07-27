@@ -1,6 +1,6 @@
 import asyncio
 import discord
-import system
+import sys
 from discord.ext import commands
 
 
@@ -9,16 +9,20 @@ class Admin:
 
     Works in multiple servers at once.
     """
+    
+    def __init__(self, bot):
+        self.bot = bot
+        self.voice_states = {}
 			
     @commands.command(hidden=True)
-    async def QuitBot(self, ctx, *, Password : str):
-        """Joins a voice channel."""
+    async def QuitBot(self, Password : str):
+        """Simply kill the python process of the bot"""
         Configured = False
         try:
-            File = Open("PasswordAdmin.pwd","r")
+            File = open("PasswordAdmin.pwd","r")
             Configured = True
-        else:
-            Print("Password File not found, default password will be used")
+        except:
+            await self.bot.say("Mot de passe non configuré. Je vais devoir utiliser le mot de passe par defaut, bravo l'adiministrateur...")
         if Configured:
             PasswordAdmin = File.read()
         else:
@@ -27,4 +31,4 @@ class Admin:
             await self.bot.say("I'll be back...")
             sys.exit()
         else:
-            await self.bot.say("H4H4H4H4H4H4H  https://www.youtube.com/watch?v=lVIFzVy3tEo")
+            await self.bot.say("H4H4H4H4H4H4H Mauvais mot de passe o  https://www.youtube.com/watch?v=lVIFzVy3tEo")
