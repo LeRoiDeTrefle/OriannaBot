@@ -15,7 +15,7 @@ class Admin:
         self.voice_states = {}
 			
     @commands.command(hidden=True)
-    async def QuitBot(self, Password : str):
+    async def quitbot(self, Password : str):
         """Simply kill the python process of the bot"""
         Configured = False
         try:
@@ -31,4 +31,4 @@ class Admin:
             await self.bot.say("I'll be back...")
             sys.exit()
         else:
-            await self.bot.say("H4H4H4H4H4H4H Mauvais mot de passe o  https://www.youtube.com/watch?v=lVIFzVy3tEo")
+            await self.bot.say("H4H4H4H4H4H4H Mauvais mot de passe :thumbsdown:   https://www.youtube.com/watch?v=lVIFzVy3tEo")
