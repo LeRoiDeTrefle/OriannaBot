@@ -28,4 +28,4 @@ un serveur discord, il est proposé sous licence GPU
     - On Linux systems this requires the `libffi` library. You can install in
       debian based systems by doing `sudo apt-get install libffi-dev`.
 
-En installant python v3.5 vous aurez acces à 'pip' ce dernier permet très facilement d'installer tout les différents modules nécéssaires pour faire tourner ce bot
+En installant python v3.5 vous aurez acces à `pip` ce dernier permet très facilement d'installer tout les différents modules nécéssaires pour faire tourner ce bot
