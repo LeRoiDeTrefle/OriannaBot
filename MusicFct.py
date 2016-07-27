@@ -138,6 +138,25 @@ class Music:
         }
         playlist = strfromplaylist(state.listMusic)
         await self.bot.say(playlist)
+       
+    @commands.command(pass_context=True, no_pm=True)
+    async def Playlist(self, ctx):
+        """Plays a song.
+
+        If there is a song currently in the queue, then it is
+        queued until the next song is done playing.
+
+        This command automatically searches as well from YouTube.
+        The list of supported sites can be found here:
+        https://rg3.github.io/youtube-dl/supportedsites.html
+        """
+        state = self.get_voice_state(ctx.message.server)
+        opts = {
+            'default_search': 'auto',
+            'quiet': True,
+        }
+        playlist = strfromplaylist(state.listMusic)
+        await self.bot.say(playlist)
         
     @commands.command(pass_context=True, no_pm=True)
     async def play(self, ctx, *, song : str):
