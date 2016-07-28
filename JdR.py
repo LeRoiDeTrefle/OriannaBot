@@ -84,9 +84,10 @@ class JDR:
 			except:
 				pass
 	@commands.command()
-	async def roll(dice : str):
+	async def roll(self, dice : str):
 		"""Rolls a dice in NdN format."""
 		try:
+			print('kikoolol')
 			rolls, limit = map(int, dice.split('d'))
 		except Exception:
 			await bot.say('Format has to be in NdN!')
